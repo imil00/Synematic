@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinematic Video</title>
+    <style>
+      body {
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: #333;
+        padding: 10px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .navbar-logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      .navbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .navbar-nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .navbar-nav a:hover {
+        background-color: #575757;
+      }
+
+      .navbar-toggle {
+        display: none;
+        font-size: 24px;
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+
+      .navbar-nav.show {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        text-align: center;
+      }
+
+      /* Section */
+      section {
+        padding: 100px 20px;
+      }
+
+      h2 {
+        text-align: center;
+        color: #fff;
+        margin-bottom: 30px;
+      }
+
+      /* Gallery */
+      #gallery-section {
+        padding: 60px 0;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .gallery-item {
+        position: relative;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .gallery-item img:hover {
+        transform: scale(1.05);
+      }
+
+      .gallery-item .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 0 0 8px 8px;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .gallery-item:hover .overlay {
+        opacity: 1;
+      }
+
+      /* Video */
+      #video-section {
+        padding: 60px 0;
+        text-align: center;
+      }
+
+      .video-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .video-wrapper div {
+        max-width: 100%;
+      }
+
+      iframe {
+        width: 100%;
+        height: 315px;
+        border: none;
+      }
+
+      /* Location */
+      #location {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      #location button {
+        padding: 10px 20px;
+        background-color: #c51ace;
+        color: #fbf8f8;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #location button:hover {
+        background-color: #78066b;
+      }
+
+      /* Review */
+      #review-section {
+        padding: 50px 20px;
+      }
+
+      #reviewForm {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: #222;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      #reviewForm input,
+      #reviewForm textarea {
+        width: 97%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      #reviewForm button {
+        padding: 10px 20px;
+        background-color: #c51ace;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #reviewForm button:hover {
+        background-color: #78066b;
+      }
+      /* Design */
+      @media (max-width: 770px) {
+        .navbar-nav {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+          background-color: #333;
+        }
+
+        .navbar-toggle {
+          display: block;
+        }
+
+        section {
+          padding: 80px 20px;
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="#" class="navbar-logo">Synematic</a>
+      <button class="navbar-toggle" onclick="toggleMenu()">☰</button>
+      <div class="navbar-nav">
+        <a href="#gallery-section">Galeri</a>
+        <a href="#video-section">Video</a>
+        <a href="#location">Lokasi</a>
+        <a href="#review-section">Review</a>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Galeri -->
+    <section id="gallery-section">
+      <h2>Cinematic Galeri</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://www.blind-magazine.com/wp-content/uploads/2021/12/photographing-the-city-at-night-en.jpg" alt="City Night" />
+          <div class="overlay">City Night</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://main.mobile.doss.co.id/storage/uploads/2021/11/sinema.webp" alt="Road" />
+          <div class="overlay">Road</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://cdn.openart.ai/stable_diffusion/c4b9b471b67e2a47698ee2abd190d5b68983f1e8_2000x2000.webp" alt="Old Town" />
+          <div class="overlay">Old Town</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img.wallscloud.net/uploads/thumb/1717705622/KDE_Plasma_Dark_003_HD-1024x576-MM-80.webp" alt="Mountain" />
+          <div class="overlay">Mountain</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://asset-a.grid.id/crop/0x0:0x0/x/photo/2018/06/07/2246236229.jpg" alt="Beach" />
+          <div class="overlay">Beach</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://p4.wallpaperbetter.com/wallpaper/831/287/652/dark-blue-forest-wallpaper-preview.jpg" alt="Dark Forest" />
+          <div class="overlay">Dark Forest</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- End Galeri -->
+
+    <!-- Video -->
+    <section id="video-section">
+      <h2>Cinematic Videos</h2>
+      <div class="video-wrapper">
+        <div>
+          <iframe src="https://www.youtube.com/embed/KjePbhd7nto" title="CINEMATIC VIDEO PASAR SURYA KENCANA | Canon EOS R6 4K" allowfullscreen></iframe>
+          <p>Cinematic Video Pasar Surya Kencana | Canon EOS R6 4K</p>
+        </div>
+        <div>
+          <iframe src="https://www.youtube.com/embed/ilFg9XpDX8c" title="OFFICE HOURS JAKARTA CINEMATIC VIDEO | Canon EOS R6 Mark II 4K" allowfullscreen></iframe>
+          <p>Cinematic Video Jakarta | Canon EOS R6 Mark II 4K</p>
+        </div>
+      </div>
+    </section>
+    <!-- End Video -->
+
+    <!-- Location -->
+    <section id="location">
+      <h2>Lokasi</h2>
+      <p>Klik disini untuk mendapatkan lokasi kamu!</p>
+      <button onclick="getlocation()">Dapatkan lokasi</button>
+      <p id="demo"></p>
+      <script>
+        function getlocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+            document.getElementById('demo').innerHTML = 'Geolocation is not supported by this browser.';
+          }
+        }
+
+        function showPosition(position) {
+          document.getElementById('demo').innerHTML = 'Latitude: ' + position.coords.latitude + '<br>Longitude: ' + position.coords.longitude;
+        }
+      </script>
+    </section>
+    <!-- End Location -->
+
+    <!-- Review -->
+    <section id="review-section" class="review-section">
+      <h2 class="text-center mb-5">Review</h2>
+      <form id="reviewForm">
+        <div>
+          <label for="name" class="form-label">Nama :</label>
+          <input type="text" id="name" name="name" placeholder="Masukan Nama Kamu" required />
+        </div>
+        <div>
+          <label for="rating" class="form-label">Rating:</label>
+          <input type="number" id="rating" name="rating" min="1" max="5" placeholder="Rating 1-5" required />
+        </div>
+        <div>
+          <label for="review" class="form-label">Review:</label>
+          <textarea id="review" name="review" rows="4" placeholder="Ketik Review Kamu" required></textarea>
+        </div>
+        <button type="submit">Kirim Review</button>
+      </form>
+    </section>
+    <!-- End Review -->
+
+    <script>
+      function toggleMenu() {
+        const nav = document.querySelector('.navbar-nav');
+        nav.classList.toggle('show');
+      }
+    </script>
+  </body>
+</html>
